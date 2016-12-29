@@ -9,6 +9,11 @@ using MonoMac.Foundation;
 using GuiUnit;
 using NUnit.Framework;
 
+// HACK
+namespace NUnit.Framework.SyntaxHelpers
+{
+}
+
 namespace Xamarin.Mac.Tests
 {	
 	static class MainClass
