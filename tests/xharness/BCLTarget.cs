@@ -120,7 +120,8 @@ namespace xharness
 			var testName = TestName == "mscorlib" ? "corlib" : TestName;
 			var main_test_sources = Path.Combine (MonoPath, "mcs", "class", testName, testName + "_test.dll.sources");
 			var main_test_files = File.ReadAllLines (main_test_sources);
-
+			var watch_test_sources = Path.Combine (WatchMonoPath, "mcs", "class", testName, testName + "_test.dll.sources");
+			var watch_test_files = File.ReadAllLines (watch_test_sources).Where ((arg) => !string.IsNullOrEmpty (arg));
 			var template_path = Path.Combine (Harness.RootDirectory, "bcl-test", TestName, TestName + ".csproj.template");
 			var csproj_input = File.ReadAllText (template_path);
 			var project_path = Path.Combine (Harness.RootDirectory, "bcl-test", TestName, TestName + ".csproj");
@@ -132,9 +133,6 @@ namespace xharness
 				sb [i] = new StringBuilder ();
 
 			Process (main_test_sources, main_test_files, "'$(TargetFrameworkIdentifier)' == 'MonoTouch' Or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' Or '$(TargetFrameworkIdentifier)' == 'Xamarin.TVOS'", sb, split_count);
-
-			var watch_test_sources = Path.Combine (WatchMonoPath, "mcs", "class", testName, testName + "_test.dll.sources");
-			var watch_test_files = File.ReadAllLines (watch_test_sources).Where ((arg) => !string.IsNullOrEmpty (arg));
 			Process (watch_test_sources, watch_test_files, "'$(TargetFrameworkIdentifier)' == 'Xamarin.WatchOS'", sb, split_count);
 
 			if (split_count > 1) {
