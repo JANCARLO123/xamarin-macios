@@ -69,9 +69,6 @@
     <Compile Include="..\..\common\Assert.cs">
       <Link>Assert.cs</Link>
     </Compile>
-    <Compile Include="..\..\common\AssertHelpers.cs">
-      <Link>AssertHelpers.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
 #FILES#
