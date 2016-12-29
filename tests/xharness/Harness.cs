@@ -201,15 +201,16 @@ namespace xharness
 			return s.ToString ();
 		}
 
-		void CreateBCLProjects ()
+		void CreateBCLProjects (bool mac)
 		{
 			foreach (var bclTest in BclTests) {
-				var target = new BCLTarget () {
+				var target = new BCLTarget (mac) {
 					Harness = this,
 					MonoPath = MONO_PATH,
-					WatchMonoPath = WATCH_MONO_PATH,
 					TestName = bclTest,
 				};
+				if (!mac)
+					target.WatchMonoPath = WATCH_MONO_PATH;
 				target.Convert ();
 			}
 		}
@@ -222,9 +223,9 @@ namespace xharness
 			WATCH_MONO_PATH = make_config ["WATCH_MONO_PATH"];
 			TVOS_MONO_PATH = MONO_PATH;
 			INCLUDE_WATCH = make_config.ContainsKey ("INCLUDE_WATCH") && !string.IsNullOrEmpty (make_config ["INCLUDE_WATCH"]);
-			JENKINS_RESULTS_DIRECTORY = make_config ["JENKINS_RESULTS_DIRECTORY"];
-			MAC_DESTDIR = make_config ["MAC_DESTDIR"];
-			IOS_DESTDIR = make_config ["IOS_DESTDIR"];
+//			JENKINS_RESULTS_DIRECTORY = make_config ["JENKINS_RESULTS_DIRECTORY"];
+//			MAC_DESTDIR = make_config ["MAC_DESTDIR"];
+//			IOS_DESTDIR = make_config ["IOS_DESTDIR"];
 		}
 		 
 		void AutoConfigureMac ()
@@ -234,7 +235,7 @@ namespace xharness
 			//var library_projects = new string[] { "BundledResources", "EmbeddedResources", "bindings-test", "bindings-framework-test" };
 			//var fsharp_test_suites = new string[] { "fsharp" };
 			//var fsharp_library_projects = new string[] { "fsharplibrary" };
-			//var bcl_suites = new string[] { "mscorlib", "System", "System.Core", "System.Data", "System.Net.Http", "System.Numerics", "System.Runtime.Serialization", "System.Transactions", "System.Web.Services", "System.Xml", "System.Xml.Linq", "Mono.Security", "System.ComponentModel.DataAnnotations", "System.Json", "System.ServiceModel.Web", "Mono.Data.Sqlite" };
+			var bcl_suites = new string [] { "System" }; // "mscorlib", "System", "System.Core", "System.Data", "System.Net.Http", "System.Numerics", "System.Runtime.Serialization", "System.Transactions", "System.Web.Services", "System.Xml", "System.Xml.Linq", "Mono.Security", "System.ComponentModel.DataAnnotations", "System.Json", "System.ServiceModel.Web", "Mono.Data.Sqlite" };
 			foreach (var p in test_suites)
 				MacTestProjects.Add (new MacTestProject (Path.GetFullPath (Path.Combine (RootDirectory, p + "/" + p + ".csproj"))));
 			MacTestProjects.Add (new MacTestProject (Path.GetFullPath (Path.Combine (RootDirectory, "introspection", "Mac", "introspection-mac.csproj")), skipXMVariations : true));
@@ -246,10 +247,10 @@ namespace xharness
 			//TestProjects.Add (Path.GetFullPath (Path.Combine (RootDirectory, p + "/" + p + ".csproj")));
 			//foreach (var p in fsharp_library_projects)
 			//TestProjects.Add (Path.GetFullPath (Path.Combine (RootDirectory, p + "/" + p + ".fsproj")));
-			//foreach (var p in bcl_suites)
-			//TestProjects.Add (Path.GetFullPath (Path.Combine (RootDirectory, "bcl-test/" + p + "/" + p + ".csproj")));
+			foreach (var p in bcl_suites)
+				MacTestProjects.Add (new MacTestProject (Path.GetFullPath (Path.Combine (RootDirectory, "bcl-test/" + p + "/" + p + "-Mac.csproj")), generateVariations: false));
 
-			// BclTests.AddRange (bcl_suites);
+			BclTests.AddRange (bcl_suites);
 		}
 
 		void AutoConfigureIOS ()
@@ -343,7 +344,7 @@ namespace xharness
  			if (AutoConf)
 				AutoConfigureMac ();
  
- 			CreateBCLProjects ();
+ 			CreateBCLProjects (true);
  
 			foreach (var proj in MacTestProjects.Where ((v) => v.GenerateVariations)) {
 				var file = proj.Path;
@@ -404,7 +405,7 @@ namespace xharness
 			if (AutoConf)
 				AutoConfigureIOS ();
 
-			CreateBCLProjects ();
+			CreateBCLProjects (false);
 
 			foreach (var proj in IOSTestProjects) {
 				var file = proj.Path;
