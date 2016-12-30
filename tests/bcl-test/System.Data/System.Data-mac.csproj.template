@@ -76,7 +76,7 @@
 #FILES#
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
-  <Import Project="CopyContent.targets" />  
+  <Import Project="../SyncTestResources.targets" />  
   <ItemGroup>
     <Content Include="..\..\..\external\mono\mcs\class\System.Data\Test\System.Data\binserialize\BS-tb1.bin">
       <Link>Test\System.Data\binserialize\BS-tb1.bin</Link>

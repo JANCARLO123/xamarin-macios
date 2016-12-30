@@ -32,6 +32,7 @@
     <CreatePackage>false</CreatePackage>
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
+    <I18n>cjk,mideast,other,rare,west</I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -46,6 +47,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <I18n>cjk,mideast,other,rare,west</I18n>
   </PropertyGroup>  
    <ItemGroup>
     <Reference Include="System" />
