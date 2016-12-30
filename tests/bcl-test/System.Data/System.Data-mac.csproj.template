@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>BCL.Tests</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>SystemDataTests</AssemblyName>
+    <AssemblyName>System.DataTests</AssemblyName>
     <NoWarn>67,168,169,219,414,612,618,649,672</NoWarn>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseXamMacFullFramework>true</UseXamMacFullFramework>
@@ -32,6 +32,7 @@
     <CreatePackage>false</CreatePackage>
     <LinkMode>None</LinkMode>
     <XamMacArch>x86_64</XamMacArch>
+    <I18n>cjk,mideast,other,rare,west</I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -46,6 +47,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <I18n>cjk,mideast,other,rare,west</I18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -74,6 +76,7 @@
 #FILES#
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="CopyContent.targets" />  
   <ItemGroup>
     <Content Include="..\..\..\external\mono\mcs\class\System.Data\Test\System.Data\binserialize\BS-tb1.bin">
       <Link>Test\System.Data\binserialize\BS-tb1.bin</Link>
